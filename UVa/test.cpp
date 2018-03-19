@@ -1,41 +1,43 @@
-#include <stdio.h>
-#include <sstream>
+#include<cstdio>
 using namespace std;
-int parent[65536], weight[65536];
-int findp(int x) {
-    return parent[x] == x ? x : parent[x] = findp(parent[x]);
-}
-int joint(int x, int y) {
-    x = findp(x), y = findp(y);
-    if (x == y)	return 0;
-    if (weight[x] > weight[y])
-        parent[y] = x, weight[x] += weight[y];
-    else
-        parent[x] = y, weight[y] += weight[x];
-    return 1;
-}
-int main() {
-    int testcase, n;
-    char line[1024];
-    scanf("%d", &testcase);
-    while (getchar() != '\n');
-    while (getchar() != '\n');
-    while (testcase--) {
-        scanf("%d", &n);
-        while (getchar() != '\n');
-        for (int i = 0; i < n; i++)
-            parent[i] = i, weight[i] = 1;
-        int ret = n, x, y;
-        while (gets(line) && line[0] != '\0') {
-            stringstream sin(line);
-            while (sin >> x >> y) {
-                x--, y--;
-                ret -= joint(x, y);
-            }
-        }
-        printf("%d\n", ret);
-        if (testcase)
-            puts("");
+void mergesort(int l,int h,int a[]);
+void combine(int l,int mid,int h,int a[]);
+
+long long int ans=0;
+int buffer[500001];
+
+int main()
+{
+    int n;
+    while(scanf("%d",&n)){
+        if(n==0) return 0;
+        int arr[500001],i; ans=0;
+        for(int i=0;i<n;i++){
+            scanf("%d",&arr[i]);}
+        mergesort(0,n-1,arr);
+        printf("%lld\n",ans);
     }
-    return 0;
+}
+void mergesort(int l,int h,int a[])
+{
+    if(l==h) return;
+    int mid=(l+h)/2;
+    mergesort(l,mid,a);
+    mergesort(mid+1,h,a);
+    combine(l,mid,h,a);
+}
+void combine(int l,int mid,int h,int a[])
+{
+    int lcnt=l,hcnt=mid+1,bufcnt=0;
+    while(lcnt<=mid && hcnt<=h){
+        if(a[hcnt]<a[lcnt]){
+            buffer[bufcnt++]=a[hcnt++];
+            ans+=(mid-lcnt+1);
+        }
+        else buffer[bufcnt++]=a[lcnt++];
+    }
+    while(lcnt<=mid) buffer[bufcnt++]=a[lcnt++];
+    while(hcnt<=h) buffer[bufcnt++]=a[hcnt++];
+    for(bufcnt=0;l<=h;l++)
+        a[l]=buffer[bufcnt++];
 }
