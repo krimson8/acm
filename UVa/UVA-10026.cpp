@@ -1,8 +1,20 @@
 // havent done need to fix map
 #include <stdio.h>
 #include <map>
+#include <algorithm>
 
 using namespace std;
+
+struct node
+{
+    int tf;
+    int num;
+}a[1000];
+
+bool cmp(struct node a,struct node b) 
+{
+    return a.tf > b.tf; 
+}
 
 int main() {
     // map<float, int> q
@@ -19,28 +31,23 @@ int main() {
     while(n--) {
         scanf("%d\n", &m);
         
-        map<float, int> q;
+        // map<float, int> q;
         i = 0;
         l = m;
         while(l--) {
             scanf("%d %d", &day, &fine);
-            tf[i] = (float)fine / day;
-            printf("-- %f\n", tf[i]);
-            q[tf[i]] = i + 1;
+            a[i].tf = (float)fine / day;
+            a[i].num = i + 1;
+            // tf[i] = (float)fine / day;
+            // printf("-- %f\n", tf[i]);
+            // q[tf[i]] = i + 1;
             i++;
         }
-        for(int i = m - 1; i > 0; i-- ) {
-            for(int j = 0; j < i; j++ ) {
-                if(tf[j] < tf[j + 1]) {
-                    t = tf[j];
-                    tf[j] = tf[j + 1];
-                    tf[j + 1] = t;
-                }
-            }
-        }
-
+        
+        stable_sort(a, a + i, cmp);
         for(int k = 0; k < m; k++) {
-            printf("%d ", q[tf[k]]);
+            printf("%d ", a[k].num);
+            // printf("%d ", q[tf[k]]);
         }
         printf("\n");
     }
