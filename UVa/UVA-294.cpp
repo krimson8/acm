@@ -6,7 +6,6 @@
 using namespace std;
 
 vector<int> prime;
-vector<int>::iterator g;
 
 bool is_prime(int n) {
     for(int i = 0; prime[i] * prime[i] <= n; i++) {
@@ -25,33 +24,27 @@ void make_prime() {
 int main() {
     
     int c; // number of test case
-    printf("wtf\n");
     long long U, L;
-    long long k;
-    int i, m = 0;
+    long long k; 
+
     make_prime();
-    // for(i = 1; i < 10; i++) {
-    //     printf("--%d\n", prime[i]);
-    // }
-    // printf("wtf\n");
-    long long ans = 0, dis = 0, num, anum;
+    long long ans = 0, dis = 1, num, anum;
 
     scanf("%d", &c);
-    printf("n is %d\n", c);
+    // printf("n is %d\n", c);
     while(c--) {
-
+        ans = 0;
         scanf("%lld %lld", &L, &U);
-        printf("L is %lld U is %lld\n", L, U);
+        // printf("L is %lld U is %lld\n", L, U);
         for(k = L; k < U + 1; k++) {
-            m = 0;
-            printf("wtf %lld\n", k);
             num = k;
 
+            // I dunno why but the code below was false
+            /*
             i = prime[m];
-
-            while(k != i && i < sqrt(k)) {
-                if(k % i == 0) {
-                    k = k / i;
+            while(num != i && i < sqrt(num)) {
+                if(num % i == 0) {
+                    num = num / i;
                     // printf("    %lld\n", i);
                 }
                 else {
@@ -60,13 +53,25 @@ int main() {
                     dis++;
                 }
             }
+            */
+
+            for(int g = 0; g < prime.size() && prime[g] <= num; g++) {
+                int e = 1;
+                while(num % prime[g] == 0) {
+                    num /= prime[g];
+                    e++;
+                }
+                dis *= e;
+            }
+            if(num > 1) dis *= 2;
+
             if(dis > ans) {
                 ans = dis;
-                anum = num;
+                anum = k;
             }
-            k = num;
+            dis = 1;
         }
         printf("Between %lld and %lld, %lld has a maximum of %lld divisors.\n", L, U, anum, ans);
-    
+        ans = 0;
     }
 }
