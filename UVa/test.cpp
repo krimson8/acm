@@ -1,43 +1,33 @@
-#include<cstdio>
-using namespace std;
-void mergesort(int l,int h,int a[]);
-void combine(int l,int mid,int h,int a[]);
+#include <stdio.h>
 
-long long int ans=0;
-int buffer[500001];
-
-int main()
-{
-    int n;
-    while(scanf("%d",&n)){
-        if(n==0) return 0;
-        int arr[500001],i; ans=0;
-        for(int i=0;i<n;i++){
-            scanf("%d",&arr[i]);}
-        mergesort(0,n-1,arr);
-        printf("%lld\n",ans);
-    }
-}
-void mergesort(int l,int h,int a[])
-{
-    if(l==h) return;
-    int mid=(l+h)/2;
-    mergesort(l,mid,a);
-    mergesort(mid+1,h,a);
-    combine(l,mid,h,a);
-}
-void combine(int l,int mid,int h,int a[])
-{
-    int lcnt=l,hcnt=mid+1,bufcnt=0;
-    while(lcnt<=mid && hcnt<=h){
-        if(a[hcnt]<a[lcnt]){
-            buffer[bufcnt++]=a[hcnt++];
-            ans+=(mid-lcnt+1);
+int main() {
+    int n, c, i, j, p[1001] = {1}, pt = 1;
+    for(i = 2; i < 1001; i++) {
+        int flag = 0;
+        for(j = 2; j*j <= i; j++) {
+            if(i%j == 0) {
+                flag = 1;
+                break;
+            }
         }
-        else buffer[bufcnt++]=a[lcnt++];
+        if(!flag)
+            p[pt++] = i;
     }
-    while(lcnt<=mid) buffer[bufcnt++]=a[lcnt++];
-    while(hcnt<=h) buffer[bufcnt++]=a[hcnt++];
-    for(bufcnt=0;l<=h;l++)
-        a[l]=buffer[bufcnt++];
+    while(scanf("%d %d", &n, &c) == 2) {
+        printf("%d %d:", n, c);
+        int list[1001], lt = 0;
+        for(i = 0; i < pt; i++) {
+            if(p[i] <= n)
+                list[lt++] = p[i];
+            else
+                break;
+        }
+        if(lt&1)    c = c*2-1;
+        else        c = c*2;
+        if(c > lt)  c = lt;
+        for(i = lt/2-c/2, j = 0; j < c; j++, i++)
+            printf(" %d", list[i]);
+        puts("\n");
+    }
+    return 0;
 }
