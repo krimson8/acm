@@ -61,6 +61,7 @@ int main() {
                 X = X * X;
                 double Y = (f[i].y - f[j].y);
                 Y = Y * Y;
+                
                 e[num_edge].a = i;
                 e[num_edge].b = j;
                 e[num_edge].weight = sqrt(X + Y);
