@@ -50,10 +50,8 @@ int main() {
     int a, b;
 
     int temp;
-    scanf("%d", &C);
 
-    while(C--) {
-        scanf("%d", &c_num);
+    while(scanf("%d", &c_num) != EOF) {
         for(int i = 1; i < c_num + 1; i++) {
             scanf("%d %d", &c[i].x, &c[i].y);   
         }
@@ -69,33 +67,33 @@ int main() {
             if(Union(a, b)) cnt++;
         }
 
-        if(cnt == c_num - 1) {
-            printf("No new highways need\n");
-        }
-        else {
-            e_num = 0;
-            for(int i = 1; i < c_num + 1; i++) {
-                for(int j = i + 1; j < c_num + 1; j++) {
-                    double X = (c[i].x - c[j].x);
-                    X = X * X;
-                    double Y = (c[i].y - c[j].y);
-                    Y = Y * Y;
+        
+        e_num = 0;
+        for(int i = 1; i < c_num + 1; i++) {
+            for(int j = i + 1; j < c_num + 1; j++) {
+                double X = (c[i].x - c[j].x);
+                X = X * X;
+                double Y = (c[i].y - c[j].y);
+                Y = Y * Y;
 
-                    e[e_num].a = i;
-                    e[e_num].b = j;
-                    e[e_num].weight = sqrt(X + Y);
-                    e_num++;
-                }
-            }
-
-            sort(e, e + e_num, cmp);
-
-            for(int i = 0; i < e_num; i++) {
-                if(Union(e[i].a, e[i].b)) {
-                    printf("%d %d\n", e[i].a, e[i].b);
-                }
+                e[e_num].a = i;
+                e[e_num].b = j;
+                e[e_num].weight = sqrt(X + Y);
+                e_num++;
             }
         }
-        if(C) printf("\n");
+
+        sort(e, e + e_num, cmp);
+        double ans = 0;
+
+        for(int i = 0; i < e_num; i++) {
+            if(Union(e[i].a, e[i].b)) {
+                //printf("%d %d\n", e[i].a, e[i].b);
+                ans += e[i].weight;
+            }
+        }
+
+        printf("%.2lf\n", ans);
+        
     }
 }
