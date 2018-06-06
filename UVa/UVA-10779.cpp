@@ -64,26 +64,37 @@ int FordFulkerson(int s, int t, int n) {
 }
 
 int main() {
-    int n, s, t, c, Case = 1;
+    int n, s, t, c, m, Case = 1;
     int a, b, band;
 
-    while (1) {
-        scanf("%d", &n);
-        if(n == 0) break;
+    scanf("%d", &c);
+    while(c--) {
+        scanf("%d %d", &n, &m);
         memset(cap, 0, sizeof(cap));
         memset(flow, 0, sizeof(flow));
         memset(pa, 0, sizeof(pa));
         
-        scanf("%d %d %d", &s, &t, &c);
-        
-        while(c--) {
-            scanf("%d %d %d", &a, &b, &band);
-            cap[b][a] += band;
-            cap[a][b] += band;
+        t = n + m + 1;
+        int k, ki;
+        for(int i = 1; i <= n; i++) {
+            scanf("%d", &k);
+            while(k--) {
+                scanf("%d", &ki);
+                cap[i][n + ki]++;
+            }
         }
 
-        printf("Network %d\n", Case++);
-        printf("The bandwidth is %d.\n\n", FordFulkerson(s, t, n));
+        for (int i = n + 1; i <= n + m; i++)
+            cap[i][t] = 1;
+            
+        for (int i = 2; i <= n; i++) {
+            for (int j = n + 1; j <= n + m; j++) {
+                if (cap[i][j]) --cap[i][j];
+                else cap[j][i] = 1;
+            }
+        }
+        
+        printf("Case #%d: %d\n", Case++, FordFulkerson(1, t, t));
     
     }
 
