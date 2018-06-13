@@ -12,12 +12,6 @@ map <int, vector<int>> edg;
 int llink[105], rlink[105];
 bool used[105];
 
-struct Point{
-    double x;
-    double y;
-} gopher[105], hole[105];
-
-int n, m, s, v;
 
 bool DFS(int now) {
     int next;
@@ -54,27 +48,23 @@ int Bipartite(int nL, int nR) {
 }
 
 int main() {
-    double distance, x, y;
+    int n, m, k;
+    int i, x, y;
+    while(1) {
+        scanf("%d", &n);
+        if(n == 0) break;
 
-    while(scanf("%d %d %d %d", &n, &m, &s, &v) == 4) {
         edg.clear();
+        scanf("%d %d", &m, &k);
 
-        for(int i = 0; i < n; i++) 
-            scanf("%lf %lf", &gopher[i].x, &gopher[i].y);
-        for(int i = 0; i < m; i++) 
-            scanf("%lf %lf", &hole[i].x, &hole[i].y);
-
-        for(int i = 0; i < n; ++i){ 
-            for(int j = 0; j < m; ++j) {
-                x = gopher[i].x-hole[j].x;
-                y = gopher[i].y-hole[j].y;
-                distance = sqrt(x * x + y * y);
-
-                if(distance / v <= s)
-                    edg[i].push_back(j);
-            }
+        for(int j = 0; j < k; j++) {
+            scanf("%d %d %d", &i, &x, &y);
+            if (!x || !y) continue;
+            edg[x].push_back(y);
         }
 
-        printf("%d\n", n - Bipartite(n, m));
+        printf("%d\n", Bipartite(n, m));
     }
+
+    return 0;
 }

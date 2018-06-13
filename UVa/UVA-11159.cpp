@@ -54,27 +54,28 @@ int Bipartite(int nL, int nR) {
 }
 
 int main() {
-    double distance, x, y;
+    int c, count = 1;
+    int n, m;
+    int na[105], nb[105];
 
-    while(scanf("%d %d %d %d", &n, &m, &s, &v) == 4) {
+    scanf("%d", &c);
+    while(c--) {
         edg.clear();
+        scanf("%d", &n);
+        for(int i = 0; i < n; i++) scanf("%d", &na[i]);
+        
+        scanf("%d", &m);
+        for(int i = 0; i < m; i++) scanf("%d", &nb[i]);
 
-        for(int i = 0; i < n; i++) 
-            scanf("%lf %lf", &gopher[i].x, &gopher[i].y);
-        for(int i = 0; i < m; i++) 
-            scanf("%lf %lf", &hole[i].x, &hole[i].y);
-
-        for(int i = 0; i < n; ++i){ 
-            for(int j = 0; j < m; ++j) {
-                x = gopher[i].x-hole[j].x;
-                y = gopher[i].y-hole[j].y;
-                distance = sqrt(x * x + y * y);
-
-                if(distance / v <= s)
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if((na[i] && nb[j] % na[i] == 0) || !nb[j])
                     edg[i].push_back(j);
             }
         }
 
-        printf("%d\n", n - Bipartite(n, m));
+        printf("Case %d: %d\n", count++, Bipartite(n, m));
     }
+
+    return 0;
 }
