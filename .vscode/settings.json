@@ -5,6 +5,7 @@
         "vector": "cpp",
         "*.tcc": "cpp",
         "deque": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "limits": "cpp"
     }
 }
